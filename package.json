@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cucumber-js",
+    "test:search": "cucumber-js features/search.feature",
+    "test:navigation": "cucumber-js features/navigation.feature",
+    "test:tickets": "cucumber-js features/tickets.feature"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@cucumber/cucumber": "^13.0.0",
+    "chai": "^6.2.2",
     "puppeteer": "^25.1.0"
   }
 }
