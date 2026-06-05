@@ -1,13 +1,10 @@
 const { Before, After, setDefaultTimeout } = require('@cucumber/cucumber');
-const puppeteer = require('puppeteer');
+const { launchBrowser } = require('./browser');
 
 setDefaultTimeout(60 * 1000);
 
 Before(async function () {
-  this.browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=1280,800'],
-  });
+  this.browser = await launchBrowser();
   this.page = await this.browser.newPage();
   await this.page.setViewport({ width: 1280, height: 800 });
 });

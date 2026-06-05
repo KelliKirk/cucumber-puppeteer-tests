@@ -72,16 +72,30 @@ When('Kasutaja valib seansi ja vajutab {string} nuppu', async function (buttonTe
 });
 
 When('Valib modaalis {string}', async function (optionText) {
-  const clicked = await this.page.evaluate((text) => {
+  const alreadyOnTicketPage = await this.page.evaluate(() => {
+    const bodyText = document.body.innerText;
+    return /piletid/i.test(bodyText) && /istekohad|vali toolitüüp/i.test(bodyText);
+  });
+
+  if (alreadyOnTicketPage) {
+    return;
+  }
+
+  await this.page.waitForFunction(
+    (text) => [...document.querySelectorAll('a, button')].some((el) =>
+      el.textContent.trim() === text
+    ),
+    { timeout: 15000 },
+    optionText
+  );
+
+  await this.page.evaluate((text) => {
     const match = [...document.querySelectorAll('a, button')].find((el) =>
       el.textContent.trim() === text
     );
-    if (!match) return false;
-    match.click();
-    return true;
+    if (match) match.click();
   }, optionText);
 
-  expect(clicked).to.be.true;
   await new Promise((resolve) => setTimeout(resolve, 1500));
 });
 

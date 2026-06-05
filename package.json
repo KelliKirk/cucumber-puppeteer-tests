@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install:browsers": "npx puppeteer browsers install chrome",
+    "setup": "rm -rf .puppeteer-profile && npx puppeteer browsers install chrome",
     "test": "cucumber-js",
     "test:search": "cucumber-js features/search.feature",
     "test:navigation": "cucumber-js features/navigation.feature",
